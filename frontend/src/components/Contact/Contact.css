@@ -12,7 +12,6 @@
 /* Background Styling */
 .box {
   font-family: "Bricolage Grotesque", sans-serif;
-  /* background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%); */
   height: 100vh;
   display: flex;
   flex-direction: column;

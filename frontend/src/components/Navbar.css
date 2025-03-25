@@ -7,7 +7,6 @@
 
 body {
   font-family: "Bricolage Grotesque", Sans-serif !important;
-  /* background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%); */
   color: #333;
   color: #333;
   width: 100%;
@@ -143,7 +142,6 @@ header {
   right: 20px;
   padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  /* background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%); */
 }
 
 .mobile-menu.active {

@@ -64,7 +64,7 @@
   gap: 0.5rem;
   position: relative;
   height: 130vh;
-  /* background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%); */
+  background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%);
 }
 
 .ca-signup-container .heading-text {
@@ -76,7 +76,9 @@
   text-align: center;
 }
 
-
+body {
+  background-color: #ffdaaa;
+}
 
 .already-account {
   margin-top: 1rem;

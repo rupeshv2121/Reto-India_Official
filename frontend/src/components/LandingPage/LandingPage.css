@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Josefin+Sans&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:wght@300;400&display=swap");
 .landing {
-  /* background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%); */
   /* Logo Section */
   /* Navigation Menu */
   /* Buttons */
@@ -180,7 +179,6 @@
   right: 20px;
   padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  /* background: linear-gradient(462deg, #fdf2e3 51%, #ffd39c 70%); */
 }
 .landing .mobile-menu.active {
   display: flex;
@@ -467,7 +465,6 @@
   }
   .landing .head-parent {
     margin-left: 0;
-    margin-top: 100px;
   }
   .landing .img-parent {
     display: none !important;

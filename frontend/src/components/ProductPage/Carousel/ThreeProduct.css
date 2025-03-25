@@ -10,38 +10,25 @@
   font-size: 1.5rem;
 }
 
-/* Responsive Styles */
 @media screen and (max-width: 769px) {
   .prev-arrow-box,
   .next-arrow-box {
     top: 36%;
   }
 }
-
 @media screen and (max-width: 426px) {
   .banner-div {
     padding-inline: 0.5rem;
+  }
+  .banner {
+    height: 250px;
+  }
+  .banner-image {
+    height: 250px;
   }
   .prev-arrow-box,
   .next-arrow-box {
     padding: 0.5rem;
     top: 50%;
   }
-}
-
-/* Updated Banner Styles */
-.banner {
-  min-height: 250px; /* Ensures a minimum height */
-  height: auto; /* Adjusts to image size */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.banner-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures the image covers the banner fully */
-}
-
-/*# sourceMappingURL=ThreeProduct.css.map */
+}/*# sourceMappingURL=ThreeProduct.css.map */
