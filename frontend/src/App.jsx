@@ -2,8 +2,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import TitleUpdater from "../src/components/Title_Updater/title_updater";
-import MainLayout from "./components/Layout/MainLayout";
 import CartPersistence from "./components/CartPage/CartPersistence";
+import MainLayout from "./components/Layout/MainLayout";
 
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const AboutUs = lazy(() => import("./components/About/AboutUs"));

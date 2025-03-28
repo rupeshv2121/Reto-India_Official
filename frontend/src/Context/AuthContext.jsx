@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loadCart, resetCart } from "../Redux/CartSlice";
 import { useDispatch } from "react-redux";
+import { loadCart, resetCart } from "../Redux/CartSlice";
 
 const AuthContext = createContext();
 
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = (token, user) => {
     localStorage.setItem("authToken", token);
-    localStorage.setItem("username", user);
+    localStorage.setItem("fullName", user.fullName);
     setIsLoggedIn(true);
     setFullName(user.fullName);
     console.log("User logged in: ", { token, fullName });
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("authToken");
-    localStorage.removeItem("username");
+    localStorage.removeItem("fullName");
     dispatch(resetCart()); // Reset cart state
     // localStorage.removeItem('cart'); // Remove cart from localStorage
     setIsLoggedIn(false);

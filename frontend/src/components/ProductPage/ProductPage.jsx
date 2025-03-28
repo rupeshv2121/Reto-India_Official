@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import axios from "axios"; 
 import ProductPage from "./Carousel/FiveProduct";
 import MainCarousel from "./Carousel/ThreeProduct";
 
@@ -43,23 +43,39 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (!searchItems.trim()) {
+    const searchTerm = searchItems.toLowerCase().trim(); // 🟢 Normalize input
+  
+    if (!searchTerm) {
       setFilteredProducts(products);
       setFilteredTrending(trending);
       return;
     }
-
-    const filtered = products?.filter((item) =>
-      item?.title?.toLowerCase().includes(searchItems.toLowerCase())
+  
+    const exactMatches = products.filter(
+      (item) => item.title?.toLowerCase().trim() === searchTerm
     );
-
-    const filteredTrend = trending?.filter((item) =>
-      item?.name?.toLowerCase().includes(searchItems.toLowerCase())
+  
+    const partialMatches = products.filter(
+      (item) => item.title?.toLowerCase().includes(searchTerm)
     );
-
-    setFilteredProducts(filtered);
-    setFilteredTrending(filteredTrend);
+  
+    setFilteredProducts(exactMatches.length > 0 ? exactMatches : partialMatches);
+  
+    const exactTrending = trending.filter(
+      (item) => item.name?.toLowerCase().trim() === searchTerm
+    );
+  
+    const partialTrending = trending.filter(
+      (item) => item.name?.toLowerCase().includes(searchTerm)
+    );
+  
+    setFilteredTrending(
+      exactTrending.length > 0 ? exactTrending : partialTrending
+    );
   }, [searchItems, products, trending]);
+  
+  console.log(products); // See actual object structure
+  
 
   return (
     <div className="background pt-[30px] md:pt-[50px] lg:pt-[30px] bg-cover bg-no-repeat bg-center min-h-lvh space-y-10 custom-padding">
