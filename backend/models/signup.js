@@ -27,13 +27,16 @@ const userSignupSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
       minlength: 6,
     },
     phoneNo: {
       type: String,
-      required: true, // Make phone number mandatory
       match: [/^\d{10}$/, "Please enter a valid 10-digit phone number"], // Ensure valid phone format
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true, // Allows null values, ensuring only Google users have this
     },
     status: {
       type: String,

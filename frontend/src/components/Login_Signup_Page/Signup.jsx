@@ -8,8 +8,9 @@ import { toast, ToastContainer } from "react-toastify";
 import { signUpUser } from "../../API/api";
 import { useAuth } from "../../Context/AuthContext";
 import "./Signup.css";
-import LottieAnimation from "../LottieAnimation/LottieAnimation"; 
-import ArtisticAnimation from "../../Lottie/Animation_artistic_3.json"; 
+import LottieAnimation from "../LottieAnimation/LottieAnimation";
+import ArtisticAnimation from "../../Lottie/Animation_artistic_3.json";
+
 const Signup = () => {
   const {login} = useAuth();
   const navigate = useNavigate();
@@ -17,12 +18,13 @@ const Signup = () => {
     fullName: "",
     email: "",
     password: "",
-    phoneNo: "", // Added phone number field
+    phoneNo: "",
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const [showAnimation, setShowAnimation] = useState(false); 
+  const [showAnimation, setShowAnimation] = useState(false);
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
@@ -37,8 +39,8 @@ const Signup = () => {
       console.log("Signup successful - onSuccess triggered", response);
 
       setTimeout(() => {
-        setShowAnimation(false); 
-        setUser({ fullName: "", email: "", password: "", phoneNo: "" }); // Reset form
+        setShowAnimation(false);
+        setUser({ fullName: "", email: "", password: "", phoneNo: "" });
 
         if (!response.token) {
           console.error("Signup response missing required fields:", response);
@@ -58,7 +60,7 @@ const Signup = () => {
     onError: (error) => {
       console.error("Error signing up:", error.message);
       setTimeout(() => {
-        setShowAnimation(false); // Hide animation after 2 seconds
+        setShowAnimation(false);
         toast.error("Signup failed. Please try again.", { position: "top-center" });
       }, 2000);
     },
@@ -85,6 +87,10 @@ const Signup = () => {
     setShowAnimation(true);
     console.log(user);
     mutate(user);
+  };
+
+  const handleGoogleSignup = () => {
+    window.location.href = "https://reto-india-backend.onrender.com/auth/google";
   };
 
   return (
@@ -129,25 +135,27 @@ const Signup = () => {
                 />
               </div>
               <div className="field input-field" style={{ marginTop: "2rem", marginBottom: "3rem" }}>
-                <input
-                  className="input is-medium"
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  value={user.password}
-                  name="password"
-                  placeholder="Password"
-                  onChange={handleOnChange}
-                />
+                <div className="password-input-container">
+                  <input
+                    className="input is-medium"
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    value={user.password}
+                    name="password"
+                    placeholder="Password"
+                    onChange={handleOnChange}
+                  />
+                  <IconButton
+                    aria-label={showPassword ? "hide the password" : "display the password"}
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </div>
                 <div className="already-account">
                   <NavLink to={'/auth/login'}>Already have account ?</NavLink>
                 </div>
-                <IconButton
-                  aria-label={showPassword ? "hide the password" : "display the password"}
-                  onClick={handleClickShowPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
               </div>
               <button
                 className="button signup-btn-border is-large is-responsive mt-5"
@@ -158,14 +166,14 @@ const Signup = () => {
                 {isLoading || showAnimation ? "Signing Up..." : "SIGNUP →"}
               </button>
               {showAnimation && (
-                  <div className="full-screen-loader">
-                    <LottieAnimation animationData={ArtisticAnimation} className="full-screen-animation" />
-                  </div>
+                <div className="full-screen-loader">
+                  <LottieAnimation animationData={ArtisticAnimation} className="full-screen-animation" />
+                </div>
               )}
               <div className="divider-wrapper mt-4 mb-4">
                 <span>OR</span>
               </div>
-              <button className="button signup-btn-border" type="button">
+              <button className="button signup-btn-border" type="button" onClick={handleGoogleSignup}>
                 <i className="icon icon-google"></i>
                 Sign up with Google →
               </button>

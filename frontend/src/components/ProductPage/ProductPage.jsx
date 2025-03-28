@@ -78,7 +78,9 @@ const Home = () => {
   
 
   return (
-    <div className="background pt-[30px] md:pt-[50px] lg:pt-[30px] bg-cover bg-no-repeat bg-center min-h-lvh space-y-10 custom-padding">
+    <div className="background pt-[30px] md:pt-[50px] lg:pt-[30px] bg-cover bg-no-repeat bg-center min-h-lvh space-y-10 custom-padding"
+  style={{paddingBottom: "4rem"}} 
+    >
       {/* 🔎 Search Bar */}
       <div className="w-full flex justify-center items-center">
         <div className="w-full sm:w-4/5 md:w-2/3 lg:w-2/5 flex px-[30px] md:pt-0 relative justify-center">

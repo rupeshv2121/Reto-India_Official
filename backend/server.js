@@ -22,6 +22,10 @@ const AllProducts = require("./models/AllProduct");
 const AddProduct = require("./models/AddProduct");
 const Cart = require("./models/Cart");
 const generateShortId = () => crypto.randomBytes(4).toString("hex"); // 8-char unique ID
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+
 const app = express();
 // Configure CORS
 const corsOptions = {
@@ -36,6 +40,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(passport.initialize());
 
 // MongoDB connection URIs
 const MONGO_URL = process.env.MONGO_URL;
@@ -84,6 +89,75 @@ app.get("/Product", async (req, res) => {
     console.error("Error fetching product:", error);
   }
 });
+
+// Passport Google Strategy for Google OAuth Login
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID : process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "https://reto-india-backend.onrender.com/auth/google/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try{
+        const email = profile.emails[0].value;
+        const fullName = profile.displayName;
+
+        // Find or create user
+        let user = await userSignUpInfo.findOne({ email });
+        if (!user) {
+          user = new userSignUpInfo({ fullName, email, phoneNo: "" });
+          await user.save();
+        }
+
+        return done(null, user);
+      } catch (error) {
+        return done(error, null);
+      }
+    }
+  )
+)
+
+// Start Google OAuth
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"],prompt: "select_account", })
+);
+
+// Google Callback
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { session: false, failureRedirect: "/login" }),
+  async (req, res) => {
+    try {
+      const user = req.user;
+
+      // Generate JWT (match your manual login)
+      const token = jwt.sign(
+        { userId: user._id, email: user.email }, // Adjust userId to your schema
+        "your-secret-key", // Replace with your secret
+        { expiresIn: "1h" }
+      );
+      
+      
+      res.cookie("token", token, { httpOnly: true }); // httpOnly for security
+      // Redirect to frontend with token
+      res.redirect(
+        `https://reto-india.onrender.com/auth/login?token=${token}&fullName=${encodeURIComponent(user.fullName)}`
+      );
+    } catch (error) {
+      console.error("Error in Google callback:", error);
+      res.redirect("/login?error=server_error");
+    }
+  }
+);
+
+// Simple failure route
+app.get("/login", (req, res) => {
+  res.send("Login failed. Try again.");
+});
+// Passport Google Strategy
+
 // Routes
 // Razorpay instance
 const razorpay = new Razorpay({
@@ -213,7 +287,7 @@ app.post("/auth/login", async (req, res) => {
       { expiresIn: "1h" } // Token expiration time
     );
 
-    console.log("Login successful for user:", email); // Debugging
+    // console.log("Login successful for user:", email); // Debugging
 
     // Respond with success
     res.status(200).json({ message: "Login successful!", token, user });

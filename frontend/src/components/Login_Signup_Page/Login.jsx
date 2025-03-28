@@ -54,6 +54,7 @@ const Login = () => {
     }
   };
 
+
   const { mutate } = useMutation({
     mutationFn: (user) => loginUser(user),
     onMutate: () => setIsLoading(true),
@@ -144,6 +145,7 @@ const Login = () => {
                 >
                   LOGIN →
                 </button>
+                
                 <div className="unique-divider">
                   <span>OR</span>
                 </div>

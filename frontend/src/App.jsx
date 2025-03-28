@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import TitleUpdater from "../src/components/Title_Updater/title_updater";
 import CartPersistence from "./components/CartPage/CartPersistence";
 import MainLayout from "./components/Layout/MainLayout";
+import { AuthProvider } from "./Context/AuthContext";
 
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const AboutUs = lazy(() => import("./components/About/AboutUs"));
@@ -29,33 +30,35 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <TitleUpdater />
-        <CartPersistence/>
-        <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<MainLayout />}>
-              <Route index element={<LandingPage />} />
-              <Route path="about" element={<AboutUs />} />
-              <Route path="checkout" element={<CheckoutPage />} />
-              <Route path="contact" element={<Contact />} />
-              <Route path="product" element={<Product />} />
-              <Route path="product/:productId" element={<ProductView />} />
-              <Route path="tracking" element={<TrackingPage />} />
-              <Route path="cartPage" element={<CartPage />} />
-              <Route path="auth">
-                <Route path="login" element={<Login />} />
-                <Route path="signup" element={<Signup />} />
+        <AuthProvider>
+          <TitleUpdater />
+          <CartPersistence />
+          <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
+            <Routes>
+              <Route path="/" element={<MainLayout />}>
+                <Route index element={<LandingPage />} />
+                <Route path="about" element={<AboutUs />} />
+                <Route path="checkout" element={<CheckoutPage />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="product" element={<Product />} />
+                <Route path="product/:productId" element={<ProductView />} />
+                <Route path="tracking" element={<TrackingPage />} />
+                <Route path="cartPage" element={<CartPage />} />
+                <Route path="auth">
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<Signup />} />
+                </Route>
+                <Route path="orderPage" element={<OrderPage />} />
+                <Route path="payment" element={<PaymentPage />} />
+                <Route path="order/:orderId/success" element={<SuccessPage />} />
+                <Route path="gpayPayment" element={<GPayPaymentTemplate />} />
+                <Route path="phonepe" element={<PhonepePaymentTemplate />} />
+                <Route path="upipay" element={<UPIPaymentTemplate />} />
+                <Route path="card" element={<CardPaymentTemplate />} />
               </Route>
-              <Route path="orderPage" element={<OrderPage />} />
-              <Route path="payment" element={<PaymentPage />} />
-              <Route path="order/:orderId/success" element={<SuccessPage />} />
-              <Route path="gpayPayment" element={<GPayPaymentTemplate />} />
-              <Route path="phonepe" element={<PhonepePaymentTemplate />} />
-              <Route path="upipay" element={<UPIPaymentTemplate />} />
-              <Route path="card" element={<CardPaymentTemplate />} />
-            </Route>
-          </Routes>
-        </Suspense>
+            </Routes>
+          </Suspense>
+        </AuthProvider>
       </Router>
     </QueryClientProvider>
   );
